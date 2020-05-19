@@ -3,7 +3,6 @@ import Heading from "../components/Heading";
 import icon from "../assets/icons/clover.png";
 import Card, {CardWrapper} from '../components/Card'
 import {CardRoulettes} from "../assets/CardContent";
-
 const pageType = 'Roulette';
 const Roulettes = () => (
 
