@@ -3,7 +3,7 @@ import Card from '../components/Card'
 import Heading from "../components/Heading";
 import icon from "../assets/icons/free.png";
 import {CardWrapper} from "../components/Card";
-import firebase from "../firebase";
+import firebase from "../firebase/firebase";
 
 
 
@@ -11,7 +11,7 @@ function RealMoney() {
     const [card,setCard] = useState([])
 
     useEffect(()=>{
-        const unsubscribe = firebase
+        // const unsubscribe = firebase
         firebase.firestore()
             .collection("CardData")
             .onSnapshot((snapshot => {
@@ -21,7 +21,7 @@ function RealMoney() {
                 }))
                 setCard(newCard)
             }))
-        return() => unsubscribe()
+        // return() => unsubscribe()
 
     }, [])
 

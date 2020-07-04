@@ -7,7 +7,7 @@ import {ReactComponent as AgeIcon} from "../assets/icons/age-limit.svg";
 import {device} from '../assets/device';
 import {Link} from "react-router-dom";
 import Button from "./Button";
-import firebase from "../firebase"
+import firebase from "../firebase/firebase"
 export const CardWrapper = styled.div`
 position: relative;
 left:50%;

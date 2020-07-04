@@ -203,17 +203,15 @@ const Hamburger = () =>{
             <SidebarStyles>
                 <div className={hamburgerActive ? "sidebarActive" : "sidebar"}>
                     <ul className="sidebarList">
-                        {pageNames.map((name)=> (
-
-
-                            <StyledNavlink to={name==="Real Money"? ('/') :(`/${name}`)} activeClassName='activeLink' exact>
-                                    <li key={name} onClick={()=>setHamburgerState(!hamburgerActive)} className="sidebarItem">
-                                        <img src={name==="Real Money" ? RealMoney : name==="Airdrops" ? Airdrops : name === "Roulettes" ? Roulettes : null}  alt=""/>
-                                  <div>{name}</div>
+                        {pageNames.map((name)=> <StyledNavlink key={name} to={name === "Real Money" ? ('/') : (`/${name}`)}
+                                                               activeClassName='activeLink' exact>
+                            <li key={name} onClick={() => setHamburgerState(!hamburgerActive)} className="sidebarItem">
+                                <img
+                                    src={name === "Real Money" ? RealMoney : name === "Airdrops" ? Airdrops : name === "Roulettes" ? Roulettes : null}
+                                    alt=""/>
+                                <div>{name}</div>
                             </li>
-                            </StyledNavlink>
-
-                        ))}
+                        </StyledNavlink>)}
                     </ul>
                 </div>
             </SidebarStyles>

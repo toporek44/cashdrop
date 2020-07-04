@@ -1,12 +1,24 @@
-import React, {useState} from 'react';
-import firebase from "../firebase";
+import React, {useEffect, useRef, useState} from 'react';
+import firebase from "../firebase/firebase";
 import styled  from "styled-components"
+import {ReactComponent as CloseButton} from "../assets/icons/close.svg";
 
 const StyledForm = styled.form`
 display: flex;
 justify-content: start;
 align-items: center;
 flex-direction: column;
+width:280px;
+position: absolute;
+top:50%;
+left:50%;
+//transform: translate(-50%,-50%);
+background-color: #5BD6CA;
+padding: 4rem 2rem 2rem 2rem;
+z-index: 1000;
+transform: translate(-50%,-250%);
+transition: 1s ease-in-out;
+
 
 label{
 display: flex;
@@ -32,7 +44,21 @@ flex-direction: column;
     }
 }
 `
+const StyledCloseButton = styled(CloseButton)`
+position: absolute;
+top:15px;
+right:15px;
+width:20px;
+height: 20px;
 
+&:hover{
+path{
+fill: rgba(255,3,21,0.72);
+
+}
+cursor:pointer;
+}
+`
 const Button =styled.button`
 background-color: transparent;
 color:#fff;
@@ -53,6 +79,8 @@ color:#5BD6CA;
 
 
 const Form = () => {
+    const form = useRef(null)
+    const [isModalOpen,setModalState] = useState(true)
     const [price, setPrice] = useState("")
     const [name,setName] = useState("")
     const [logo, setLogo] = useState("")
@@ -62,8 +90,11 @@ const Form = () => {
     const [kyc, setKyc] = useState(true)
     const [width, setWidth] = useState("")
     const [height, setHeight] = useState("")
+
+
     const onSubmit = (e) =>{
         e.preventDefault()
+        if(price === "") return
         firebase.firestore().collection("CardData").add({
             price,
             name,
@@ -88,8 +119,24 @@ const Form = () => {
             })
     }
 
+    const toggleModal = () =>{
+        const currForm =form.current
+        if(!isModalOpen) {
+            setModalState(true)
+            // currForm.style.display = "none"
+            currForm.style.transform= "translate(-50%,-250%)"
+        } else {
+            setModalState(false);
+            currForm.style.display = "flex"
+            currForm.style.transform= "translate(-50%,-50%)"
+        }
+        console.log(isModalOpen)
+
+    }
     return (
-        <StyledForm onSubmit={onSubmit}>
+        <>
+        <StyledForm onSubmit={onSubmit} ref={form}>
+            <StyledCloseButton onClick={toggleModal}/>
             <label>
                 Price:
                 <input type="text" value={price} onChange={(e => setPrice(e.currentTarget.value))} />
@@ -126,8 +173,10 @@ const Form = () => {
                 Height:
                 <input type="text" value={height} onChange={(e => setHeight(e.currentTarget.value))} />
             </label>
-            <Button>Send</Button>
+            <Button onClick={toggleModal}>Send</Button>
         </StyledForm>
+            <button onClick={toggleModal}>Open</button>
+            </>
     );
 };
 

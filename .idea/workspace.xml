@@ -2,15 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96b1518a-fd99-440f-acdf-1a3ec48564eb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Form.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Login.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/SingUp.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/firebase/Auth.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/firebase/PrivateRoute.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Theme/GlobalStyle.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Theme/GlobalStyle.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Card.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Card.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Form.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Form.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Hamburger.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Hamburger.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ScrollToTop.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ScrollToTop.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/firebase.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/firebase/firebase.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/Airdrops.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/Airdrops.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/Offers/Bison.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/Offers/Bison.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/view/RealMoney.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/RealMoney.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/view/Root.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/Root.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/Roulettes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/Roulettes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,17 +53,17 @@
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\maciek\WebstormProjects\test\src" />
-      <recent name="C:\Users\maciek\WebstormProjects\test\firebase" />
-      <recent name="C:\Users\maciek\WebstormProjects\test\firebase\functions" />
-      <recent name="C:\Users\maciek\WebstormProjects\test\public" />
-      <recent name="C:\Users\maciek\WebstormProjects\test\src\view" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\maciek\WebstormProjects\test\src\assets" />
       <recent name="C:\Users\maciek\WebstormProjects\test\src" />
       <recent name="C:\Users\maciek\WebstormProjects\test\src\view" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\maciek\WebstormProjects\test\src" />
+      <recent name="C:\Users\maciek\WebstormProjects\test\src\view\firebase" />
+      <recent name="C:\Users\maciek\WebstormProjects\test\firebase" />
+      <recent name="C:\Users\maciek\WebstormProjects\test\firebase\functions" />
+      <recent name="C:\Users\maciek\WebstormProjects\test\public" />
     </key>
   </component>
   <component name="RunManager" selected="npm.npm start">
@@ -112,7 +119,7 @@
       <workItem from="1592577971313" duration="135000" />
       <workItem from="1593789302857" duration="6975000" />
       <workItem from="1593801127356" duration="3108000" />
-      <workItem from="1593843732613" duration="9519000" />
+      <workItem from="1593843732613" duration="21013000" />
     </task>
     <servers />
   </component>
@@ -152,9 +159,9 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="546" y="248" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1589131951650" />
-    <state x="143" y="230" width="672" height="678" key="search.everywhere.popup" timestamp="1593846299907">
+    <state x="143" y="230" width="672" height="678" key="search.everywhere.popup" timestamp="1593879524260">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="143" y="230" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1593846299907" />
+    <state x="143" y="230" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1593879524260" />
   </component>
 </project>

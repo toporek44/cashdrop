@@ -1,11 +1,28 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Heading from "../components/Heading";
 import icon from '../assets/icons/drop.png'
-
 import Card, {CardWrapper} from '../components/Card'
-import {CardAirdrops} from "../assets/CardContent";
+import firebase from "../firebase/firebase";
 
-const Airdrops = () => (
+const Airdrops = () => {
+    const [card,setCard] = useState([])
+
+    useEffect(()=>{
+        // const unsubscribe = firebase
+        firebase.firestore()
+            .collection("CardAirdrops")
+            .onSnapshot((snapshot => {
+                const newCard = snapshot.docs.map((doc)=> ({
+                    id:doc.id,
+                    ...doc.data()
+                }))
+                setCard(newCard)
+            }))
+        // return() => unsubscribe()
+
+    }, [])
+
+    return(
   <>
     <Heading>
         Catch Your Crypto Now
@@ -13,7 +30,9 @@ const Airdrops = () => (
         <img src={icon} alt=""/>
     </Heading>
     <CardWrapper>
-        {CardAirdrops.map(({price, name, logo, time, age, availability,width, height,kyc})=>(
+        <button onClick={() => firebase.auth().signOut()}>Sign out</button>
+
+        {card.map(({price, name, logo, time, age, availability,width, height,kyc})=>(
             <Card
                 price={price}
                 name={name}
@@ -32,5 +51,5 @@ const Airdrops = () => (
 
     </CardWrapper>
   </>
-);
+)};
 export default Airdrops;

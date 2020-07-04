@@ -10,8 +10,6 @@ import {ReactComponent as StepOne} from "../../assets/icons/one.svg";
 import {ReactComponent as StepTwo} from "../../assets/icons/two.svg";
 import {ReactComponent as StepThree} from "../../assets/icons/three.svg";
 import {ReactComponent as StepFour} from "../../assets/icons/four.svg";
-import {ReactComponent as StepFive} from "../../assets/icons/five.svg";
-import {ReactComponent as StepSix} from "../../assets/icons/six.svg";
 import Button from "../../components/Button";
 
 const Bison = () => {
