@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import styled from 'styled-components'
 import {ReactComponent as CardRect} from '../assets/icons/card rect.svg'
 import {ReactComponent as KycIcon} from "../assets/icons/kyc.svg";
@@ -7,7 +7,7 @@ import {ReactComponent as AgeIcon} from "../assets/icons/age-limit.svg";
 import {device} from '../assets/device';
 import {Link} from "react-router-dom";
 import Button from "./Button";
-
+import firebase from "../firebase"
 export const CardWrapper = styled.div`
 position: relative;
 left:50%;
@@ -177,7 +177,6 @@ color:#5BD6CA;
 }
 `
 const Card = ({price, name, logo, time, age, availability, width, height, code, pageType, kyc}) => {
-
     const [copySucces, setCopySucces] = useState(code)
     const input = useRef(null)
     const copyToClipboard = (e) => {
@@ -186,7 +185,7 @@ const Card = ({price, name, logo, time, age, availability, width, height, code, 
         e.target.focus();
         setCopySucces('Copied!')
     }
-
+    // const newCardTypeRef = firebase.firestore().collection("CardData").doc();
 
     return (
 
@@ -194,10 +193,14 @@ const Card = ({price, name, logo, time, age, availability, width, height, code, 
             {(name.includes('http')) ?
                 (
                     <Wrapper onClick={() => (window.open(name, '_blank'))}>
-                        {(name.includes('http')) ?
+                        {
+                            (name.includes('http')) ?
                             (<Button onClick={() => (window.open(name, '_blank'))}>take it</Button>) :
-                            ( <Button as={Link} to={`/${name}`}>take it</Button>)}
-                        {(availability) ? (<Dot/>) : (<Dot style={{background: '#F3112C'}}/>)}
+                            ( <Button as={Link} to={`/${name}`}>take it</Button>)
+                        }
+                        {
+                            (availability) ? (<Dot/>) : (<Dot style={{background: '#F3112C'}}/>)
+                        }
                         <Price>{price}</Price>
                         <img style={{width: width, height: height}} src={logo} alt={name}/>
                         <CardRect className="cardRect"/>

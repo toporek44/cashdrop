@@ -1,4 +1,5 @@
-import React from "react";
+
+import React,{useState} from "react";
 import GlobalStyle from "../Theme/GlobalStyle";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import Header from "../components/Header";
@@ -15,6 +16,11 @@ import {ReactComponent as ArrowUp} from "../assets/icons/arrowup.svg";
 import CoinList from "./Offers/CoinList";
 import Morpher from "./Offers/Morpher";
 import Azimo from "./Offers/Azimo";
+import firebase from "../firebase";
+import Form from "../components/Form";
+require("dotenv").config({path: ".env"});
+
+
 
 const handleScrollTop = () => {
     window.scrollTo(0, 0);
@@ -32,9 +38,8 @@ background-color:rgba(36,255,233,0.4);
 `
 
 
-class Root extends React.Component {
+const Root = () => {
 
-    render() {
         return (
             <>
                 <BrowserRouter>
@@ -57,13 +62,14 @@ class Root extends React.Component {
 
                                 </Switch>
                         <StyledArrowUp onClick={handleScrollTop}/>
+            <Form />
                                 <Footer/>
                     </>
                 </BrowserRouter>
 
             </>
         );
-    }
+
 }
 
 export default Root;
