@@ -3,7 +3,7 @@ import Card from '../components/Card'
 import Heading from "../components/Heading";
 import icon from "../assets/icons/free.png";
 import {CardWrapper} from "../components/Card";
-import firebase from "../firebase/firebase";
+import  {addSnapshot} from "../firebase/firebase";
 
 
 
@@ -11,18 +11,7 @@ function RealMoney() {
     const [card,setCard] = useState([])
 
     useEffect(()=>{
-        // const unsubscribe = firebase
-        firebase.firestore()
-            .collection("CardData")
-            .onSnapshot((snapshot => {
-                const newCard = snapshot.docs.map((doc)=> ({
-                    id:doc.id,
-                    ...doc.data()
-                }))
-                setCard(newCard)
-            }))
-        // return() => unsubscribe()
-
+       addSnapshot("CardData", setCard)
     }, [])
 
     console.log(card.map(({name, price }) => price + name))
@@ -35,14 +24,13 @@ function RealMoney() {
             <img src={icon} alt=""/>
         </Heading>
         <CardWrapper>
-            {card.map(({price, name, logo, time, age, availability,width, height,kyc})=>(
+            {card.map(({price, name, logo, time, age,width, height,kyc})=>(
                 <Card
                 price={price}
                 name={name}
                 logo={logo}
                 time={time}
                 age={age}
-                availability={availability}
                 width={width}
                 height={height}
                 key={name}

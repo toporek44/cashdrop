@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import Heading from "../components/Heading";
 import icon from "../assets/icons/clover.png";
 import Card, {CardWrapper} from '../components/Card'
-import firebase from "../firebase/firebase";
+import {addSnapshot} from "../firebase/firebase";
 const pageType = 'Roulette';
 
 
@@ -11,17 +11,7 @@ const Roulettes = () => {
     const [card,setCard] = useState([])
 
     useEffect(()=>{
-        // const unsubscribe = firebase
-        firebase.firestore()
-            .collection("CardRoulettes")
-            .onSnapshot((snapshot => {
-                const newCard = snapshot.docs.map((doc)=> ({
-                    id:doc.id,
-                    ...doc.data()
-                }))
-                setCard(newCard)
-            }))
-        // return() => unsubscribe()
+ addSnapshot("CardRoulettes", setCard)
 
     }, [])
 
@@ -37,7 +27,7 @@ const Roulettes = () => {
 
         </Heading>
         <CardWrapper >
-            {card.map(({price, name, logo, time, age, availability,width, height,code})=>(
+            {card.map(({price, name, logo, time, age,width, height,code, promoUrl,cardType})=>(
                 <Card
                     pageType={pageType}
                     price={price}
@@ -45,12 +35,12 @@ const Roulettes = () => {
                     logo={logo}
                     time={time}
                     age={age}
-                    availability={availability}
                     width={width}
                     height={height}
                     code={code}
                     key={name}
-
+                    promoUrl={promoUrl}
+                    cardType={cardType}
                 />
             ))}
         </CardWrapper>

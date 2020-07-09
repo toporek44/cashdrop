@@ -1,7 +1,42 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useState} from 'react';
 import firebase from "../firebase/firebase";
 import styled  from "styled-components"
+import Button from "./Button";
 import {ReactComponent as CloseButton} from "../assets/icons/close.svg";
+import Card, {Wrapper as CardComponent} from "./Card";
+import {device} from "../assets/device";
+import {ReactComponent as PreviewIcon} from "../assets/icons/preview.svg";
+
+const Wrapper = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+position: absolute;
+top:50%;
+left:50%;
+transform: ${({isModalOpen})=>isModalOpen? "translate(-50%,-250%) ": "translate(-50%,-50%)"};
+transition: 1s ease-in-out;
+z-index: 800;
+
+
+${CardComponent}{
+position: absolute;
+top:50%;
+transform: translateY(-50%);
+z-index: 1000;
+    @media ${device.tablet}{
+    position: relative;
+    top: initial;
+    transform: initial;
+    }
+}
+
+
+@media ${device.tablet}{
+flex-direction:row;
+}
+`
 
 const StyledForm = styled.form`
 display: flex;
@@ -9,23 +44,50 @@ justify-content: start;
 align-items: center;
 flex-direction: column;
 width:280px;
-position: absolute;
-top:50%;
-left:50%;
-//transform: translate(-50%,-50%);
 background-color: #5BD6CA;
 padding: 4rem 2rem 2rem 2rem;
 z-index: 1000;
-transform: translate(-50%,-250%);
-transition: 1s ease-in-out;
-
+position: relative;
+button{
+    background-color: transparent;
+    color:#fff;
+    width: 100px;
+    height: 33px;
+    border: 2px solid #fff;
+    transition: .3s ease-in-out;
+    
+    &:hover{
+      color: #5BD6CA;
+      background-color: #fff;
+      transition: .3s ease-in-out;
+      cursor: pointer;
+    }
+    }
 
 label{
 display: flex;
 justify-content: center;
+align-items: start;
 flex-direction: column;
-
-
+width:200px;
+    
+    select{
+        margin:0.7rem 0 1rem 0;
+        background-color: transparent;
+        height: 33px;
+        border: 2px solid #fff;
+        color: #fff;
+        padding: 0 2rem;
+        font-size: 1.3rem;
+        
+        &:hover{
+        cursor: pointer;
+        }
+        option{
+        background-color: #5BD6CA;        
+        }
+    }
+    
     input{
     border:none;
     margin:0.7rem 0 1rem 0;
@@ -42,11 +104,13 @@ flex-direction: column;
         transition: .3s ease-in-out;
         }
     }
+    
+    
 }
 `
 const StyledCloseButton = styled(CloseButton)`
 position: absolute;
-top:15px;
+top:12px;
 right:15px;
 width:20px;
 height: 20px;
@@ -59,125 +123,181 @@ fill: rgba(255,3,21,0.72);
 cursor:pointer;
 }
 `
-const Button =styled.button`
-background-color: transparent;
-color:#fff;
-width: 80px;
-height: 30px;
-border: 2px solid #fff;
-transition: .3s ease-in-out;
 
-&:hover{
+const StyledPreviewButton = styled(PreviewIcon)`
+position: absolute;
+top:10px;
+left:5px;
+width:120px;
+height: 27px;
+margin:0;
 cursor: pointer;
-background-color: #fff;
-transition: .3s ease-in-out;
-color:#5BD6CA;
-}
 
+
+@media ${device.tablet}{
+display: none;
+}
 `
 
 
 
 const Form = () => {
-    const form = useRef(null)
     const [isModalOpen,setModalState] = useState(true)
-    const [price, setPrice] = useState("")
-    const [name,setName] = useState("")
-    const [logo, setLogo] = useState("")
-    const [time, setTime] = useState("")
-    const [age, setAge] = useState(true)
-    const [availability, setAvailability] = useState(true)
-    const [kyc, setKyc] = useState(true)
-    const [width, setWidth] = useState("")
-    const [height, setHeight] = useState("")
+    const [isCardVisible, setCardVisibility] = useState(false)
+    const [formData, setFormData] = useState({price:"", name:"", logo: "", time: "10 min", age: "true",  kyc: "true", width:"",height:"",code: "",promoUrl:"",cardType:"CardData" })
 
 
     const onSubmit = (e) =>{
         e.preventDefault()
-        if(price === "") return
-        firebase.firestore().collection("CardData").add({
-            price,
-            name,
-            logo,
-            time,
-            age,
-            availability,
-            kyc,
-            width,
-            height
+        if(formData.price === "") return
+        firebase.firestore().collection(formData.cardType).add({
+          ...formData
         })
             .then(()=>{
-                setPrice("")
-                setName("")
-                setLogo("")
-                setTime("")
-                setAge(true)
-                setAvailability(true)
-                setKyc(true)
-                setWidth("")
-                setHeight("")
+                setFormData({
+                    ...formData,
+                    price:"",
+                    name:"",
+                    logo: "",
+                    time: "10 min",
+                    age: "true",
+                    kyc: "true",
+                    width:"",
+                    height:"",
+                    code: "",
+                    promoUrl:""
+                })
+
             })
     }
 
     const toggleModal = () =>{
-        const currForm =form.current
         if(!isModalOpen) {
             setModalState(true)
-            // currForm.style.display = "none"
-            currForm.style.transform= "translate(-50%,-250%)"
+            setCardVisibility(false)
         } else {
             setModalState(false);
-            currForm.style.display = "flex"
-            currForm.style.transform= "translate(-50%,-50%)"
-        }
-        console.log(isModalOpen)
+            setCardVisibility(true)
 
+        }
+    }
+
+
+
+
+    const updateInputField = e => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const updateSelectState = e =>{
+        setFormData({
+            ...formData,
+           [e.target.options[e.target.selectedIndex].attributes[0].value] : e.target.selectedOptions[0].value
+        })
+        console.log( )
     }
     return (
         <>
-        <StyledForm onSubmit={onSubmit} ref={form}>
-            <StyledCloseButton onClick={toggleModal}/>
-            <label>
-                Price:
-                <input type="text" value={price} onChange={(e => setPrice(e.currentTarget.value))} />
+        <Wrapper  isModalOpen={isModalOpen}>
+        <StyledForm onSubmit={onSubmit}  >
+            <StyledCloseButton onClick={toggleModal} />
+
+            <label>Choose a card type
+
+            <select  onChange={e=>  setFormData({...formData, cardType: e.currentTarget.selectedOptions[0].value})}>
+                <option value="CardData" >RealMoney</option>
+                <option value="CardRoulettes">Roulettes</option>
+                <option value="CardAirdrops">Airdrops</option>
+            </select>
             </label>
             <label>
-                Name:
-                <input type="text" value={name} onChange={(e => setName(e.currentTarget.value))} />
+                Money to get:
+                <input type="text" name="price" value={formData.price} onChange={updateInputField} />
             </label>
             <label>
-                LogoUrl:
-                <input type="text" value={logo} onChange={(e => setLogo(e.currentTarget.value))} />
+                Promotion name:
+                <input type="text" name="name" value={formData.name} onChange={updateInputField} />
             </label>
             <label>
-                Time:
-                <input type="text" value={time} onChange={(e => setTime(e.currentTarget.value))} />
+                Logo url:
+                <input type="text" name="logo" value={formData.logo} onChange={updateInputField} />
             </label>
             <label>
-                Age:
-                <input type="text" value={age} onChange={(e => setAge(e.currentTarget.value))} />
+                Time required (min):
+                <input type="text" name="time" value={formData.time} onFocus={(e)=> e.target.select()} onChange={updateInputField} />
             </label>
             <label>
-                Availability:
-                <input type="text" value={availability} onChange={(e => setAvailability(e.currentTarget.value))} />
+                Is it 18+ app/site?
+                <select onChange={updateSelectState}>
+                    <option name="age" value={true} >Yes</option>
+                    <option name="age" value={false}>No</option>
+                </select>
             </label>
             <label>
-                KYC:
-                <input type="text" value={kyc} onChange={(e => setKyc(e.currentTarget.value))} />
+                Is KYC is required?
+                <select onChange={updateSelectState}>
+                    <option  name="kyc" value={true} >Yes</option>
+                    <option  name="kyc" value={false}>No</option>
+                </select>
             </label>
             <label>
-                Width:
-                <input type="text" value={width} onChange={(e => setWidth(e.currentTarget.value))} />
+               Logo Width:
+                <input type="text" name="width" value={formData.width} onChange={updateInputField} />
             </label>
             <label>
-                Height:
-                <input type="text" value={height} onChange={(e => setHeight(e.currentTarget.value))} />
+               Logo Height:
+                <input type="text" name="height" value={formData.height} onChange={updateInputField} />
             </label>
-            <Button onClick={toggleModal}>Send</Button>
+
+            {formData.cardType==="CardRoulettes"?
+                (
+                    <>
+                    <label>
+                    Your Code:
+                    <input type="text" name="code" value={formData.code} onChange={updateInputField} />
+                    </label>
+                    <label>
+                    Ref link:
+                    <input type="text" name="promoUrl" value={formData.promoUrl} onChange={updateInputField} />
+                    </label>
+                </>
+                )
+                :
+                    null
+            }
+
+        <button  onClick={toggleModal}>Create Card</button>
+            <StyledPreviewButton  onClick={()=>setCardVisibility(!isCardVisible)}/>
         </StyledForm>
-            <button onClick={toggleModal}>Open</button>
-            </>
-    );
+
+                {
+                   isCardVisible? (
+                    <Card
+                        price= {formData.price}
+                        name= {formData.name}
+                        logo= {formData.logo}
+                        time= {formData.time}
+                        age= {formData.age}
+                        kyc={formData.kyc}
+                        width= {formData.width}
+                        height={formData.height}
+                        code={formData.code}
+                        promoUrl={formData.promoUrl}
+                        cardType={formData.cardType}
+                    />
+                ): null
+
+            }
+
+            {}
+            {window.onresize= ()=> 768 < window.innerWidth ?  setCardVisibility(true) : setCardVisibility(false)}
+            </Wrapper>
+        <Button secondary onClick={toggleModal} >Create New Card</Button>
+</>
+);
 };
 
 export default Form;

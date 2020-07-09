@@ -22,6 +22,7 @@ import SingUp from "../components/SingUp";
 import Login from "../components/Login";
 import firebase from "firebase";
 import PrivateRoute from "../firebase/PrivateRoute";
+import AdminPanel from "./AdminPanel";
 
 require("dotenv").config({path: ".env"});
 
@@ -41,38 +42,39 @@ right: 10px;
 background-color:rgba(36,255,233,0.4);
 }
 `
-
-
+const Wrapper = styled.div`
+  min-height: calc(100vh - 70px);
+`
 const Root = () => {
 
         return (
             <>
                 <AuthProvider>
                 <BrowserRouter>
-                    <>
+                    <Wrapper>
 
                         <ScrollToTop/>
                             <GlobalStyle/>
                                 <Header/>
 
                         <Switch>
-                                    <Route exact path="/" component={RealMoney}/>
-                                    <Route exact path="/Roulettes" component={Roulettes}/>
-                                    <Route path="/Airdrops" component={Airdrops}/>
-                                    <Route path='/Curve' component={Curve}/>
-                                    <Route path='/Bison' component={Bison}/>
-                                    <Route path='/Brave' component={Brave}/>
-                                    <Route path='/CoinList' component={CoinList}/>
-                                    <Route path='/Morpher' component={Morpher}/>
-                                    <Route path='/Azimo' component={Azimo}/>
-                                    <Route path='/Login' component={Login}/>
-                                    <Route path='/SingUp' component={SingUp}/>
+                            <Route exact path="/" component={RealMoney}/>
+                            <Route exact path="/Roulettes" component={Roulettes}/>
+                            <Route path="/Airdrops" component={Airdrops}/>
+                            <Route path='/Curve' component={Curve}/>
+                            <Route path='/Bison' component={Bison}/>
+                            <Route path='/Brave' component={Brave}/>
+                            <Route path='/CoinList' component={CoinList}/>
+                            <Route path='/Morpher' component={Morpher}/>
+                            <Route path='/Azimo' component={Azimo}/>
+                            <Route path='/Login' component={Login}/>
+                            <Route path='/SingUp' component={SingUp}/>
+                            <PrivateRoute path='/Admin' component={AdminPanel}/>
 
-                                </Switch>
+                        </Switch>
                         <StyledArrowUp onClick={handleScrollTop}/>
-            <Form />
-                                <Footer/>
-                    </>
+                    </Wrapper>
+                    <Footer/>
                 </BrowserRouter>
                 </AuthProvider>
             </>

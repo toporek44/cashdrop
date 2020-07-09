@@ -11,7 +11,6 @@ const GlobalStyle = createGlobalStyle`
 
 html{
 font-size:62.5%;
-
 scroll-behavior: smooth;
 ::-webkit-scrollbar {
   width: 15px;
@@ -35,12 +34,11 @@ body{
     font-size: 1.6rem;
     margin: 0;
     padding: 0;
-    background: linear-gradient(255.24deg, #2EA499 0.12%, #4FC1B7 47.02%, #67F8EA 99.12%, rgba(47, 28, 28, 0) 158.74%, #461717 158.74%) no-repeat;
+    background: linear-gradient(255.24deg, #2EA499 0.12%, #4FC1B7 47.02%, #67F8EA 99.12%, rgba(47, 28, 28, 0) 158.74%, #461717 158.74%) fixed;
     background-size: cover;
     width: 100%;
     height: 100%;
     color:#fff;
-    
   
 }
 

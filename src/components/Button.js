@@ -1,4 +1,5 @@
 import styled,{css} from "styled-components";
+import {device} from "../assets/device";
 
 const Button = styled.button`
 text-align: center;
@@ -15,9 +16,11 @@ color:#5BD6CA;
 font-weight: 700;
 font-size: 2rem;
 padding: 1rem 1.2rem;
-line-height: 14px;
 cursor: pointer;
 overflow: hidden;
+display: flex;
+align-items: center;
+justify-content: center;
 
 &:after {
     background: #1AD9D9;
@@ -39,19 +42,29 @@ overflow: hidden;
     left: 120%;
     transition: all 550ms cubic-bezier(0.19, 1, 0.22, 1);
   }
+  
+  &:focus{
+  outline-color: #1AD9D9;
+  
+  }
 }
 
 ${({secondary})=>secondary && css`
 background: transparent;
 color:#fff;
-width:200px;
-height: 50px;
+width:${({width})=> width? width : "200px"};
+height:${({height})=> height? height : "50px"};
 border:2px solid #fff;
 position: relative;
 top:inherit;
 left:inherit;
 transform: inherit;
-margin: 2rem 0 4rem 0;
+margin: 1rem .8rem 0rem .8rem;
+
+@media ${device.mobileL} {
+margin: 2rem 1rem 4rem 1rem;
+
+}
 
 
 &:after {
@@ -60,7 +73,11 @@ margin: 2rem 0 4rem 0;
   }
 `}
 
-
+  
+  &:focus{
+  outline-color: #1AD9D9;
+  
+  }
 `
 
 export default Button;

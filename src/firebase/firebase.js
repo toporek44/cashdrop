@@ -16,6 +16,23 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 
+export const addSnapshot= (cardType, setState) =>{
+
+    // const unsubscribe = firebase
+    firebase.firestore()
+        .collection(cardType)
+        .onSnapshot((snapshot => {
+            const newCard = snapshot.docs.map((doc)=> ({
+                id:doc.id,
+                ...doc.data()
+            }))
+            setState(newCard)
+        }))
+    // return() => unsubscribe()
+
+}
+
+
 export const db = firebase.firestore();
 
 export default firebase;

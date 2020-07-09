@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import styled from 'styled-components'
+import styled, {css} from 'styled-components'
 import {ReactComponent as CardRect} from '../assets/icons/card rect.svg'
 import {ReactComponent as KycIcon} from "../assets/icons/kyc.svg";
 import {ReactComponent as TimeIcon} from "../assets/icons/clock.svg";
@@ -7,7 +7,6 @@ import {ReactComponent as AgeIcon} from "../assets/icons/age-limit.svg";
 import {device} from '../assets/device';
 import {Link} from "react-router-dom";
 import Button from "./Button";
-import firebase from "../firebase/firebase"
 export const CardWrapper = styled.div`
 position: relative;
 left:50%;
@@ -24,8 +23,7 @@ width:80%;
 }
 `
 
-
-const Wrapper = styled.div`
+const styles = css`
 width:280px;
 height: 350px;
 background-color: #fff;
@@ -35,6 +33,7 @@ margin-bottom: 10rem;
 transition: all .3s ease-in-out;
 cursor: pointer;
 text-decoration: none;
+
 
 &:hover{
 transform: scale(1.05);
@@ -62,19 +61,13 @@ height: 40px;
 z-index: 10;
 transform-origin: 50%;
 }
+`;
 
-
+export const Wrapper = styled.div`
+${styles}
 `
-
-const Dot = styled.div`
-position:absolute;
-right: 10px;
-top:10px;
-width:20px;
-height: 20px;
-border-radius: 50%;
-background-color: #00FF38;
-border: 2px solid #272727;
+const StyledLink = styled(Link)`
+${styles}
 `
 
 const Price = styled.div`
@@ -143,7 +136,7 @@ bottom: 0;
 transform: translateY(-65px);
 justify-content: center;
 align-items: center;
-
+z-index: 999;
 
 input[type="text"]{
 background: transparent;
@@ -176,38 +169,39 @@ color:#5BD6CA;
 }
 }
 `
-const Card = ({price, name, logo, time, age, availability, width, height, code, pageType, kyc}) => {
-    const [copySucces, setCopySucces] = useState(code)
+
+
+const Card = ({price, name, logo, time, age, width, height, code, pageType, kyc, promoUrl, cardType}) => {
+    const [copyValue, setCopyValue] = useState(code)
     const input = useRef(null)
     const copyToClipboard = (e) => {
+        input.current.value = code
         input.current.select()
         document.execCommand('copy')
         e.target.focus();
-        setCopySucces('Copied!')
+        setCopyValue('Copied!')
     }
-    // const newCardTypeRef = firebase.firestore().collection("CardData").doc();
 
+    const Component = pageType? StyledLink : Wrapper;
     return (
 
         <>
-            {(name.includes('http')) ?
+            {cardType==="CardRoulettes" ?
                 (
-                    <Wrapper onClick={() => (window.open(name, '_blank'))}>
-                        {
-                            (name.includes('http')) ?
-                            (<Button onClick={() => (window.open(name, '_blank'))}>take it</Button>) :
-                            ( <Button as={Link} to={`/${name}`}>take it</Button>)
-                        }
-                        {
-                            (availability) ? (<Dot/>) : (<Dot style={{background: '#F3112C'}}/>)
-                        }
+                    <Wrapper onClick={() => (window.open(promoUrl, '_blank'))} >
+                        {/*{*/}
+                        {/*    (cardType==="CardRoulettes") ?*/}
+                        {/*    (<Button onClick={() => (window.open(promoUrl, '_blank'))}>take it</Button>) :*/}
+                        {/*    ( <Button as={Link} to={`/${name}`}>take it</Button>)*/}
+                        {/*}*/}
+
                         <Price>{price}</Price>
                         <img style={{width: width, height: height}} src={logo} alt={name}/>
                         <CardRect className="cardRect"/>
 
-                        {pageType === "Roulette" ? (
+                        {cardType==="CardRoulettes"? (
                             <Code>
-                                <input type="text" value={copySucces} ref={input}/>
+                                <input type="text" value={copyValue}  ref={input}/>
                                 {
                                     document.queryCommandSupported('copy') &&
                                     <button onClick={copyToClipboard}>Copy</button>
@@ -217,38 +211,28 @@ const Card = ({price, name, logo, time, age, availability, width, height, code, 
                             null
                         )}
                         <Infocontainer>
-                            {(kyc) ? (<StyledKycIcon/>) : (null)}
+                            {(kyc==="true") ? (<StyledKycIcon/>) : (null)}
                             <Time><TimeIcon/>{time}</Time>
-                            {(age) ? (<AgeIcon className="age"/>) : (null)}
+                            {(age==="true") ? (<AgeIcon className="age"/>) : (null)}
                         </Infocontainer>
                     </Wrapper>
                 )
                 :
                 (
                     <Wrapper as={Link} to={`/${name}`}>
-                        {(name.includes('http')) ?
-                            (<Button onClick={() => (window.open(name, '_blank'))}>take it</Button>) :
-                            ( <Button as={Link} to={`/${name}`}>take it</Button>)}
+                        {/*{cardType==="CardRoulettes" ?*/}
+                        {/*    (<Button onClick={() => (window.open(promoUrl, '_blank'))}>take it</Button>) :*/}
+                        {/*    ( <Button as={Link} to={`/${name}`}>take it</Button>)}*/}
 
                         <Price>{price}</Price>
                         <img style={{width: width, height: height}} src={logo} alt={name}/>
                         <CardRect className="cardRect"/>
 
-                        {pageType === "Roulette" ? (
-                            <Code>
-                                <input type="text" value={copySucces} ref={input}/>
-                                {
-                                    document.queryCommandSupported('copy') &&
-                                    <button onClick={copyToClipboard}>Copy</button>
-                                }
-                            </Code>
-                        ) : (
-                            null
-                        )}
+
                         <Infocontainer>
-                            {(kyc) ? (<StyledKycIcon/>) : (null)}
+                            {(kyc==="true") ? (<StyledKycIcon/>) : (null)}
                             <Time><TimeIcon/>{time}</Time>
-                            {(age) ? (<AgeIcon className="age"/>) : (null)}
+                            {(age==="true") ? (<AgeIcon className="age"/>) : (null)}
                         </Infocontainer>
                     </Wrapper>
                 )}

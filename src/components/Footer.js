@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import {ReactComponent as Logo} from '../assets/icons/logo-drop.svg'
 
 const Wrapper = styled.div`
+//position: relative;
+//bottom: 0;
 height: 80px;
 width: 100%;
 border-top: 2px solid #fff;
@@ -11,6 +13,7 @@ justify-content: center;
 align-items: center;
 flex-direction: column;
 margin-top: 15rem;
+
 
 .gambling-info{
 font-size: 1.2rem;
