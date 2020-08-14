@@ -47,7 +47,7 @@ const Curve = () => {
                 Don’t forget to use the following Referral Code, should you end up creating an account, to earn £5 after
                 completing your first purchase!</Desc>
             <Desc center>Referral Code: <b>D4KGVQZE</b></Desc>
-            <a rel="noreferrer noopener" target="_blank" href='https://www.curve.com/join#D4KGVQZE'><Button secondary>Download</Button></a>
+          <Button secondary>  <a rel="noreferrer noopener" target="_blank" href='https://www.curve.com/join#D4KGVQZE'>Download</a></Button>
 
             <StepTwo/>
             <Desc>After downloading the App, following the instructions on Step 1, open the Curve app.</Desc>

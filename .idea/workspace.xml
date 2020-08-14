@@ -2,21 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96b1518a-fd99-440f-acdf-1a3ec48564eb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/view/AdminPanel.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/OfferForm.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/view/Offers/Offer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Theme/GlobalStyle.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Theme/GlobalStyle.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Button.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Button.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Card.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Card.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Footer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Footer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Form.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Form.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Form.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CardForm.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/firebase/Auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/firebase/Auth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ScrollToTop.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ScrollToTop.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/firebase/firebase.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/firebase/firebase.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/Airdrops.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/Airdrops.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/RealMoney.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/RealMoney.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/AdminPanel.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/AdminPanel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/Offers/Bison.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/Offers/Bison.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/Offers/Brave.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/Offers/Brave.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/Offers/CoinList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/Offers/CoinList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/Offers/Curve.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/Offers/Curve.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/Offers/Morpher.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/Offers/Morpher.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/view/Root.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/Root.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/Roulettes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/Roulettes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,7 +122,10 @@
       <workItem from="1593934395333" duration="9529000" />
       <workItem from="1594020809132" duration="17024000" />
       <workItem from="1594106644815" duration="6922000" />
-      <workItem from="1594282418211" duration="27272000" />
+      <workItem from="1594282418211" duration="27795000" />
+      <workItem from="1594366100528" duration="17625000" />
+      <workItem from="1594450787085" duration="12019000" />
+      <workItem from="1594548784458" duration="2150000" />
     </task>
     <servers />
   </component>
@@ -142,10 +145,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="811" y="324" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1590577767839" />
-    <state x="210" y="270" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1594027831660">
+    <state x="210" y="270" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1594368147235">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="210" y="270" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1594027831660" />
+    <state x="210" y="270" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1594368147235" />
     <state x="826" y="276" key="FileChooserDialogImpl" timestamp="1589471061062">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -162,10 +165,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="769" y="436" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1586766391807" />
-    <state x="546" y="248" width="672" height="677" key="run.anything.popup" timestamp="1594042814740">
+    <state x="546" y="248" width="672" height="677" key="run.anything.popup" timestamp="1594376924357">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="546" y="248" width="672" height="677" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1594042814740" />
+    <state x="546" y="248" width="672" height="677" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1594376924357" />
     <state x="143" y="230" width="672" height="678" key="search.everywhere.popup" timestamp="1593879524260">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

@@ -25,8 +25,7 @@ const Morpher = () => {
 
             <StepOne/>
             <Desc center>Click the button below to create an account.</Desc>
-            <a rel="noreferrer noopener" target="_blank" href='https://www.morpher.com/invite/maciejt909'><Button
-                secondary>Create Account</Button></a>
+            <Button secondary><a rel="noreferrer noopener" target="_blank" href='https://www.morpher.com/invite/maciejt909'>Create Account</a></Button>
 
             <StepTwo/>
             <Desc center>Fill up form with your personal information.</Desc>

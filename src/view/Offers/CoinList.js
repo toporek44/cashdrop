@@ -21,8 +21,7 @@ const CoinList = () => {
             <StepOne/>
             <Desc center>Click the button below to create an account. <b>Warning: limited time promotion, first 10000
                 new users get bonus.</b></Desc>
-            <a rel="noreferrer noopener" target="_blank" href='https://coinlist.co/clt?referral_code=E663Z2'><Button
-                secondary>Create Account</Button></a>
+            <Button secondary><a rel="noreferrer noopener" target="_blank" href='https://coinlist.co/clt?referral_code=E663Z2'>Create Account</a></Button>
 
             <StepTwo/>
             <Desc center>Verify your personal information by KYC e.g. Driver Licence</Desc>

@@ -22,6 +22,14 @@ display: flex;
 align-items: center;
 justify-content: center;
 
+
+a{
+  text-decoration: none;
+  display: block;
+  color:#fff;
+  width:100%;
+  height: 100%;
+  }
 &:after {
     background: #1AD9D9;
     content: "";
@@ -47,6 +55,7 @@ justify-content: center;
   outline-color: #1AD9D9;
   
   }
+  
 }
 
 ${({secondary})=>secondary && css`
@@ -59,10 +68,9 @@ position: relative;
 top:inherit;
 left:inherit;
 transform: inherit;
-margin: 1rem .8rem 0rem .8rem;
-
+margin:   ${({m0})=> m0? "0px" : " 1rem .8rem 0rem .8rem"};
 @media ${device.mobileL} {
-margin: 2rem 1rem 4rem 1rem;
+margin:  ${({m0})=> m0? "0px" : "2rem 1rem 4rem 1rem"};
 
 }
 
@@ -76,7 +84,7 @@ margin: 2rem 1rem 4rem 1rem;
   
   &:focus{
   outline-color: #1AD9D9;
-  
+
   }
 `
 

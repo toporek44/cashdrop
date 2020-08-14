@@ -31,8 +31,8 @@ const Bison = () => {
             <h2>Step by Step Instruction</h2>
             <StepOne/>
             <Desc center>Download the app on your smartphone (Click the download button below)</Desc>
-            <a rel="noreferrer noopener" target="_blank" href='https://join.bisonapp.com/jnca45'><Button
-                secondary>Download</Button></a>
+
+                <Button secondary> <a rel="noreferrer noopener" target="_blank" href='https://join.bisonapp.com/jnca45'>Download</a></Button>
             <StepTwo/>
             <Desc center>After downloading the App, create your account</Desc>
             <Banner src={img1} alt="register" />

@@ -12,12 +12,15 @@ display: flex;
 justify-content: center;
 align-items: center;
 flex-direction: column;
+width: 100%;
 position: absolute;
-top:50%;
+top:0%;
 left:50%;
-transform: ${({isModalOpen})=>isModalOpen? "translate(-50%,-250%) ": "translate(-50%,-50%)"};
+transform: ${({isModalOpen})=>isModalOpen? "translate(-50%,-250%) ": "translate(-50%,10%)"};
 transition: 1s ease-in-out;
-z-index: 800;
+z-index: 1000;
+margin-bottom: 5rem;
+
 
 
 ${CardComponent}{
@@ -38,7 +41,7 @@ flex-direction:row;
 }
 `
 
-const StyledForm = styled.form`
+export const StyledForm = styled.form`
 display: flex;
 justify-content: start;
 align-items: center;
@@ -48,6 +51,7 @@ background-color: #5BD6CA;
 padding: 4rem 2rem 2rem 2rem;
 z-index: 1000;
 position: relative;
+
 button{
     background-color: transparent;
     color:#fff;
@@ -56,12 +60,12 @@ button{
     border: 2px solid #fff;
     transition: .3s ease-in-out;
     
-    &:hover{
-      color: #5BD6CA;
-      background-color: #fff;
-      transition: .3s ease-in-out;
-      cursor: pointer;
-    }
+        &:hover{
+          color: #5BD6CA;
+          background-color: #fff;
+          transition: .3s ease-in-out;
+          cursor: pointer;
+        }
     }
 
 label{
@@ -80,9 +84,10 @@ width:200px;
         padding: 0 2rem;
         font-size: 1.3rem;
         
-        &:hover{
-        cursor: pointer;
-        }
+            &:hover{
+            cursor: pointer;
+            }
+            
         option{
         background-color: #5BD6CA;        
         }
@@ -108,20 +113,21 @@ width:200px;
     
 }
 `
-const StyledCloseButton = styled(CloseButton)`
+export const StyledCloseButton = styled(CloseButton)`
 position: absolute;
 top:12px;
 right:15px;
 width:20px;
 height: 20px;
 
-&:hover{
-path{
-fill: rgba(255,3,21,0.72);
-
-}
-cursor:pointer;
-}
+    &:hover{
+    
+        path{
+        fill: rgba(255,3,21,0.72);
+        }
+        
+    cursor:pointer;
+    }
 `
 
 const StyledPreviewButton = styled(PreviewIcon)`
@@ -134,22 +140,27 @@ margin:0;
 cursor: pointer;
 
 
-@media ${device.tablet}{
-display: none;
-}
 `
 
 
 
-const Form = () => {
+
+
+
+const CardForm = ({isOfferModalOpen}) => {
     const [isModalOpen,setModalState] = useState(true)
     const [isCardVisible, setCardVisibility] = useState(false)
     const [formData, setFormData] = useState({price:"", name:"", logo: "", time: "10 min", age: "true",  kyc: "true", width:"",height:"",code: "",promoUrl:"",cardType:"CardData" })
 
 
+
     const onSubmit = (e) =>{
         e.preventDefault()
-        if(formData.price === "") return
+        // Object.keys(formData).some((i)=>{
+        //     console.log(formData[i])
+        //     if(formData[i] === "") return
+        // }) not working
+
         firebase.firestore().collection(formData.cardType).add({
           ...formData
         })
@@ -171,21 +182,21 @@ const Form = () => {
             })
     }
 
+
     const toggleModal = () =>{
         if(!isModalOpen) {
+
             setModalState(true)
             setCardVisibility(false)
         } else {
             setModalState(false);
-            setCardVisibility(true)
-
         }
     }
 
 
 
 
-    const updateInputField = e => {
+     const updateInputField = e => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
@@ -199,6 +210,8 @@ const Form = () => {
         })
         console.log( )
     }
+
+
     return (
         <>
         <Wrapper  isModalOpen={isModalOpen}>
@@ -292,12 +305,11 @@ const Form = () => {
 
             }
 
-            {}
-            {window.onresize= ()=> 768 < window.innerWidth ?  setCardVisibility(true) : setCardVisibility(false)}
+
             </Wrapper>
         <Button secondary onClick={toggleModal} >Create New Card</Button>
 </>
 );
 };
 
-export default Form;
+export default CardForm;

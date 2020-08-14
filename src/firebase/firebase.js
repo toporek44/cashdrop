@@ -16,11 +16,11 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 
-export const addSnapshot= (cardType, setState) =>{
+export const addSnapshot= (collection, setState) =>{
 
     // const unsubscribe = firebase
     firebase.firestore()
-        .collection(cardType)
+        .collection(collection)
         .onSnapshot((snapshot => {
             const newCard = snapshot.docs.map((doc)=> ({
                 id:doc.id,

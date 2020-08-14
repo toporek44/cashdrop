@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useRef } from "react";
+import React, {useCallback, useContext, useRef, useState} from "react";
 import { withRouter, Redirect } from "react-router";
 import firebase from "../firebase/firebase";
 import { AuthContext } from "../firebase/Auth";
@@ -13,16 +13,20 @@ transform: translate(-50%,-50%);
 width:80%;
 max-width: 500px;
 height: 50%;
+min-height: 300px;
 max-height: 400px;
 background-color: #5BD6CA;
 border:3px solid #fff;
-padding: 1rem 2rem;
+padding: 0rem 2rem 2rem 2rem;
 display: flex;
 justify-content: center;
 align-items: center;
 flex-direction: column;
 z-index: 999;
 
+h1{
+margin:1rem 0;
+}
 
 
 
@@ -68,12 +72,33 @@ line-height: 16.5px;
 const IncorrectLogin = styled.div`
 color: #ff4843;
 font-size: 1.2rem;
-display: none;
+display: ${({viewErrorMessage})=>viewErrorMessage? "block" : "none"};
+margin:0 0 1rem 0;
+`
+
+const ResetButton = styled.button`
+&&&{
+position: absolute;
+height: 20px;
+bottom:5px;
+right:2px;
+border:none;
+background:transparent;
+cursor: pointer;
+color: #fff;
+font-size: 1.2rem;
+width: 120px;
+left:initial;
+transform: initial;
+}
 `
 
 
 const Login = ({ history }) => {
-    const errorMessage = useRef(null)
+    const [email, setEmail] = useState("")
+    const [isResetModalOpen, setResetModalOpen] = useState(false)
+    const [viewErrorMessage, setViewErrorMessage] = useState(false)
+
     const handleLogin = useCallback(
         async event => {
             event.preventDefault();
@@ -84,7 +109,7 @@ const Login = ({ history }) => {
                     .signInWithEmailAndPassword(email.value, password.value);
                 history.push("/Admin");
             } catch (error) {
-                errorMessage.current.style.display = "block";
+                setViewErrorMessage(!viewErrorMessage)
             }
         },
         [history]
@@ -96,20 +121,56 @@ const Login = ({ history }) => {
         return <Redirect to="/Admin" />;
     }
 
+
+const resetPassword = ()=>{
+    const auth = firebase.auth();
+    auth.sendPasswordResetEmail(email).then(function() {
+        setResetModalOpen(!isResetModalOpen)
+        setViewErrorMessage(!viewErrorMessage)
+    }).catch(function(error) {
+        setViewErrorMessage(!viewErrorMessage)
+    });
+
+
+
+
+}
     return (
         <Wrapper>
-            <h1>Log in</h1>
-            <IncorrectLogin ref={errorMessage}>Incorrect Email or Password! </IncorrectLogin>
+
             <form onSubmit={handleLogin}>
-                <label>
-                    Email
+               { !isResetModalOpen? (
+                   <>
+                       <h1>Log in</h1>
+                       <IncorrectLogin viewErrorMessage={viewErrorMessage}>Incorrect Email or Password! </IncorrectLogin>
+                   <label>
+                    E-mail
                     <input name="email" type="email" placeholder="Email" required />
                 </label>
                 <label>
                     Password
                     <input name="password" type="password" placeholder="Password"  required/>
                 </label>
-                <Button  secondary  type="submit">Log in</Button>
+                <Button m0 secondary  type="submit">Log in</Button>
+                       <ResetButton href="#" onClick={()=>{
+                           setResetModalOpen(true)
+                           setViewErrorMessage(!viewErrorMessage)
+                       }}>Forgot password?</ResetButton>
+                   </>
+               )
+                   :
+                   (
+                       <>
+                       <h2>Reset Password</h2>
+                           <IncorrectLogin viewErrorMessage={viewErrorMessage}>Invalid E-mail! </IncorrectLogin>
+
+                       <label htmlFor="">E-mail
+                           <input name="email" type="email" placeholder="Email" onChange={(e)=>setEmail(e.target.value)} required />
+                           <Button m0 secondary onClick={resetPassword} > Reset</Button>
+                       </label>
+                       </>
+                   )
+               }
             </form>
         </Wrapper>
     );

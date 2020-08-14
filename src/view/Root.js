@@ -1,5 +1,4 @@
-
-import React from "react";
+import React, {useEffect, useState} from "react";
 import GlobalStyle from "../Theme/GlobalStyle";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import Header from "../components/Header";
@@ -11,18 +10,18 @@ import Bison from "./Offers/Bison";
 import Brave from "./Offers/Brave";
 import styled from 'styled-components'
 import Footer from "../components/Footer";
-import ScrollToTop from "../components/ScrollToTop";
 import {ReactComponent as ArrowUp} from "../assets/icons/arrowup.svg";
 import CoinList from "./Offers/CoinList";
 import Morpher from "./Offers/Morpher";
 import Azimo from "./Offers/Azimo";
-import Form from "../components/Form";
 import {AuthProvider} from "../firebase/Auth";
 import SingUp from "../components/SingUp";
 import Login from "../components/Login";
-import firebase from "firebase";
 import PrivateRoute from "../firebase/PrivateRoute";
 import AdminPanel from "./AdminPanel";
+import {addSnapshot} from "../firebase/firebase";
+import Offer from "./Offers/Offer";
+import ScrollToTop from "../components/ScrollToTop";
 
 require("dotenv").config({path: ".env"});
 
@@ -45,19 +44,43 @@ background-color:rgba(36,255,233,0.4);
 const Wrapper = styled.div`
   min-height: calc(100vh - 70px);
 `
+
+
+
 const Root = () => {
 
+    // const routes = [
+    //     {path: "/", name: "Home", Component: RealMoney},
+    //     {path: "/Projects", name: "Projects", Component: Roulettes},
+    //     {path: "/Contact", name: "Contact", Component: Airdrops},
+    //     {path: "/CV", name: "CV", Component: CV},
+    //
+    // ]
+    const [path, setPath] = useState([])
+
+    useEffect(()=>{
+        addSnapshot("OfferPages", setPath)
+    }, [])
+// console.log(path.path)
         return (
             <>
                 <AuthProvider>
                 <BrowserRouter>
                     <Wrapper>
-
-                        <ScrollToTop/>
+                <ScrollToTop/>
                             <GlobalStyle/>
                                 <Header/>
 
                         <Switch>
+
+                            {
+                                path.map( ( { path, offerName } ) => (
+                                    <Route exact path={path} key={offerName} >
+                                        <Offer/>
+                                    </Route>
+                                ))
+                            }
+                            {/*<Route path={path} component={Offer} />*/}
                             <Route exact path="/" component={RealMoney}/>
                             <Route exact path="/Roulettes" component={Roulettes}/>
                             <Route path="/Airdrops" component={Airdrops}/>

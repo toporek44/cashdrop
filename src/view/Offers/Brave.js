@@ -37,8 +37,7 @@ const Brave = () => {
 
             <StepOne/>
             <Desc center>Download the browser on your smartphone or Pc (Click the download button below)</Desc>
-            <a rel="noreferrer noopener" target="_blank" href='https://brave.com/mac629'><Button
-                secondary>Download</Button></a>
+            <Button secondary><a rel="noreferrer noopener" target="_blank" href='https://brave.com/mac629'>Download</a></Button>
 
             <StepTwo/>
             <Desc center>Search for brave://rewards/ and make sure that Ads are turn on.</Desc>
