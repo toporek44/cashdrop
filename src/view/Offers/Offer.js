@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {createContext, useContext, useEffect, useState} from 'react';
 import OfferDescription, {Banner, Desc, Logo} from "../../components/OfferDescription";
 import {CardRealMoney} from "../../assets/CardContent";
 import img from "../../assets/img/azimo form.jpg";
@@ -10,40 +10,36 @@ import {ReactComponent as StepThree} from "../../assets/icons/three.svg";
 import {ReactComponent as StepFour} from "../../assets/icons/four.svg";
 import {ReactComponent as StepFive} from "../../assets/icons/five.svg";
 import {ReactComponent as StepSix} from "../../assets/icons/six.svg";
-
 import dollars from "../../assets/img/dollars.png";
 import {addSnapshot} from "../../firebase/firebase";
 import * as firebase from "firebase";
+import {AuthContext} from "../../firebase/Auth";
+import Sidebar from "../../components/Sidebar";
+import {OFFER} from "../../constants";
+
+export const SidebarContext = createContext()
 
 const Offer = () => {
     const [offerData,setOfferData] = useState([])
-
+    const {currentUser} = useContext(AuthContext)
     useEffect(()=>{
-            // addSnapshot("OfferPages",setOfferData)
-        firebase.firestore()
-            .collection("OfferPages").where("offerName", "==", "Test").get()
-            .then(function(querySnapshot) {
-                querySnapshot.forEach(function(doc) {
-                    // doc.data() is never undefined for query doc snapshots
-                    setOfferData(
-
-                        [doc.data()]
-                    )
-                    })
-                    // console.log(doc.id, " => ", doc.data());
-                });
+            addSnapshot("OfferPages", setOfferData, "Test", "offerName")
             }, [])
+
 
 
 
     return (
 <>
-        {
-            offerData.map(({logoUrl, offerName, offerDescription, requirements})=>(
+    <SidebarContext.Provider value={{offerData, setOfferData}}>
 
-                <OfferDescription key={offerName}>
-                    <h1>About</h1>
-                    <Logo src={logoUrl} alt={offerName}/>
+    {currentUser && <Sidebar />}
+
+        {
+            offerData.map(({ offerDescription, requirements, banner})=>(
+                <OfferDescription key={offerDescription} >
+                    <h1 onClick={()=> console.log(offerData)}>About</h1>
+                    {/*<Logo src={logoUrl} alt={offerName}/>*/}
                     <Desc>{offerDescription}</Desc>
                     <h1 className="h1_Secondary">Requirements</h1>
                     <ul>
@@ -53,7 +49,7 @@ const Offer = () => {
                             ))
                         }
                     </ul>
-{}
+
                     <h1 className='h1_Secondary'>How do I create an account?</h1>
                     <h2>Step by Step Instruction</h2>
                     <StepOne/>
@@ -63,7 +59,7 @@ const Offer = () => {
                     <StepTwo/>
                     <Desc center><b>Fill in a form like this!</b></Desc>
                     <Desc center><b>IT'S IMPORTANT TO SEND MONEY FROM UK</b></Desc>
-                    <Banner src={img} alt="register" />
+                    <Banner src={banner} alt="register" />
                     <StepThree/>
                     <Desc center>Fill in your profile</Desc>
                     <Desc center>Enter your birth date and to enter address I recommend this website.</Desc>
@@ -83,6 +79,7 @@ const Offer = () => {
                 </OfferDescription>
             ))
         }
+    </SidebarContext.Provider>
 
 </>
     );

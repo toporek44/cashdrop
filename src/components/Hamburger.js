@@ -1,10 +1,12 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import styled from "styled-components";
 import {NavLink} from "react-router-dom";
 import {device} from '../assets/device';
 import RealMoney from "../assets/icons/money.svg";
 import Roulettes from "../assets/icons/roulette.svg";
 import Airdrops from "../assets/icons/airdrop.svg";
+import Admin from "../assets/icons/admin.svg";
+import {AuthContext} from "../firebase/Auth";
 
 
 const HambItem = () => `
@@ -187,6 +189,7 @@ const StyledNavlink = styled(NavLink)`
 const Hamburger = () =>{
     const [hamburgerActive, setHamburgerState] = useState(false);
     const pageNames = ["Real Money","Roulettes","Airdrops"];
+    const {currentUser} = useContext(AuthContext)
 
     return (
         <HamburgerWrapper>
@@ -203,15 +206,31 @@ const Hamburger = () =>{
             <SidebarStyles>
                 <div className={hamburgerActive ? "sidebarActive" : "sidebar"}>
                     <ul className="sidebarList">
-                        {pageNames.map((name)=> <StyledNavlink key={name} to={name === "Real Money" ? ('/') : (`/${name}`)}
-                                                               activeClassName='activeLink' exact>
+                        <>
+                        {currentUser &&
+
+                        (
+                            <StyledNavlink  to="/Admin" activeClassName='activeLink' exact>
+
+                                <li  onClick={() => setHamburgerState(!hamburgerActive)} className="sidebarItem">
+                                    <img
+                                        src={Admin}
+                                        alt="AdminSettings"
+                                    />
+                                    <div>Admin</div>
+                                 </li>
+                            </StyledNavlink>)
+                        }
+
+                        {pageNames.map((name)=> <StyledNavlink key={name} to={name === "Real Money" ? ('/') : (`/${name}`)} activeClassName='activeLink' exact>
                             <li key={name} onClick={() => setHamburgerState(!hamburgerActive)} className="sidebarItem">
                                 <img
                                     src={name === "Real Money" ? RealMoney : name === "Airdrops" ? Airdrops : name === "Roulettes" ? Roulettes : null}
-                                    alt=""/>
+                                    alt={name}/>
                                 <div>{name}</div>
                             </li>
                         </StyledNavlink>)}
+                        </>
                     </ul>
                 </div>
             </SidebarStyles>

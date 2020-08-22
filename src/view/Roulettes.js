@@ -3,6 +3,7 @@ import Heading from "../components/Heading";
 import icon from "../assets/icons/clover.png";
 import Card, {CardWrapper} from '../components/Card'
 import {addSnapshot} from "../firebase/firebase";
+import {CARD_TYPES} from "../constants";
 const pageType = 'Roulette';
 
 
@@ -11,8 +12,7 @@ const Roulettes = () => {
     const [card,setCard] = useState([])
 
     useEffect(()=>{
- addSnapshot("CardRoulettes", setCard)
-
+ addSnapshot( "Cards" ,setCard, CARD_TYPES.roulette)
     }, [])
 
 
@@ -27,7 +27,7 @@ const Roulettes = () => {
 
         </Heading>
         <CardWrapper >
-            {card.map(({price, name, logo, time, age,width, height,code, promoUrl,cardType})=>(
+            {card.map(({price, name, logo, time, age,width, height,code, promoUrl,cardType,id})=>(
                 <Card
                     pageType={pageType}
                     price={price}
@@ -41,6 +41,7 @@ const Roulettes = () => {
                     key={name}
                     promoUrl={promoUrl}
                     cardType={cardType}
+                    id={id}
                 />
             ))}
         </CardWrapper>

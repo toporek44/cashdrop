@@ -15,12 +15,15 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+export const db = firebase.firestore();
 
-export const addSnapshot= (collection, setState) =>{
+
+export const addSnapshot= ( collection, setState, fieldValue,collectionField="cardType" ) =>{
 
     // const unsubscribe = firebase
-    firebase.firestore()
-        .collection(collection)
+
+        db.collection(collection)
+        .where(collectionField,"==",fieldValue)
         .onSnapshot((snapshot => {
             const newCard = snapshot.docs.map((doc)=> ({
                 id:doc.id,
@@ -28,12 +31,14 @@ export const addSnapshot= (collection, setState) =>{
             }))
             setState(newCard)
         }))
+
     // return() => unsubscribe()
 
 }
 
-
-export const db = firebase.firestore();
+export const deleteDoc = (collection, id) => {
+    db.collection(collection).doc(id).delete()
+}
 
 export default firebase;
 

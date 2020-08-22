@@ -1,12 +1,16 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
+import {useHistory} from "react-router"
 import styled, {css} from 'styled-components'
 import {ReactComponent as CardRect} from '../assets/icons/card rect.svg'
 import {ReactComponent as KycIcon} from "../assets/icons/kyc.svg";
 import {ReactComponent as TimeIcon} from "../assets/icons/clock.svg";
 import {ReactComponent as AgeIcon} from "../assets/icons/age-limit.svg";
 import {device} from '../assets/device';
-import {Link} from "react-router-dom";
-import Button from "./Button";
+import {AuthContext} from "../firebase/Auth";
+import {ReactComponent as DeleteButton} from "../assets/icons/delete.svg"
+import {CARD_TYPES} from "../constants"
+import {deleteDoc} from "../firebase/firebase";
+
 export const CardWrapper = styled.div`
 position: relative;
 left:50%;
@@ -23,17 +27,30 @@ width:80%;
 }
 `
 
-const styles = css`
+
+const Image = styled.img`
+position:absolute;
+top:50%;
+left:50%;
+transform: translate(-50%,-50%);
+width: ${({width}) => width ? `${width}px` : "100%"};
+height: ${({height}) => height ? `${height}px` : "40px"};
+z-index: 10;
+transform-origin: 50%;
+
+`
+
+export const Wrapper = styled.div`
 width:280px;
 height: 350px;
-background-color: #fff;
 position: relative;
+background-color: #fff;
 box-shadow: 0 4px 25px -10px #1e8e81;
 margin-bottom: 10rem;
 transition: all .3s ease-in-out;
 cursor: pointer;
 text-decoration: none;
-
+z-index: 999;
 
 &:hover{
 transform: scale(1.05);
@@ -51,24 +68,9 @@ position: absolute;
 bottom: 0;
 height: 216px;
 }
-img{
-position:absolute;
-top:50%;
-left:50%;
-transform: translate(-50%,-50%);
-width:100%;
-height: 40px;
-z-index: 10;
-transform-origin: 50%;
-}
-`;
 
-export const Wrapper = styled.div`
-${styles}
 `
-const StyledLink = styled(Link)`
-${styles}
-`
+
 
 const Price = styled.div`
 font-size: 5rem;
@@ -89,7 +91,7 @@ height: 50px;
 z-index: 1000;
 `
 
-const Infocontainer = styled.div`
+const InfoContainer = styled.div`
 
 display: flex;
 justify-content: center;
@@ -169,11 +171,72 @@ color:#5BD6CA;
 }
 }
 `
+const StyledDeleteButton = styled(DeleteButton)`
+width: 25px;
+height: 25px;
+position:absolute;
+top:10px;
+right:10px;
+transition: all .4s ease-in-out;
+z-index: 999;
 
+&:hover {
+cursor: pointer;
+transform: scale(0.97);
+path {
+fill:#e94949 !important;
 
-const Card = ({price, name, logo, time, age, width, height, code, pageType, kyc, promoUrl, cardType}) => {
+}
+transition: all .4s ease-in-out;
+
+}
+`
+
+const Warning = styled.div`
+position: absolute;
+top:50%;
+left:50%;
+transform: translate(-50%, -220%);
+width:350px;
+height: 150px;
+background: #5BD6CA;
+display: ${({warningActive}) => warningActive ? "flex" : "none"};
+justify-content: center;
+align-items: center;
+z-index: 2000;
+flex-direction: column;
+font-size: 1.9rem;
+box-shadow: 2px 4px 10px -9px #212121;
+`
+const ButtonsContainer = styled.div`
+display: flex;
+justify-content: space-around;
+align-items: center;
+width: 100%;
+margin-top: 2rem;
+`
+
+const DecisionBtn = styled.button`
+background: ${({red}) => red ? "#b55656" : "#88f565"};
+width:90px;
+height: 36px;
+border:none;
+color:#fff;
+font-size: 1.7rem;
+transition: all .2s ease-in-out;
+
+&:hover {
+cursor: pointer;
+background: ${({red}) => red ? "#c87e7e" : "#b7ff9f"};
+}
+`
+const Card = ({price, name, logo, time, age, width, height, code, id, kyc, promoUrl, cardType}) => {
+    const {currentUser} = useContext(AuthContext)
+    const history = useHistory()
     const [copyValue, setCopyValue] = useState(code)
+    const [warningActive, setWarningActive] = useState(false)
     const input = useRef(null)
+
     const copyToClipboard = (e) => {
         input.current.value = code
         input.current.select()
@@ -182,62 +245,52 @@ const Card = ({price, name, logo, time, age, width, height, code, pageType, kyc,
         setCopyValue('Copied!')
     }
 
-    const Component = pageType? StyledLink : Wrapper;
+
     return (
 
-        <>
-            {cardType==="CardRoulettes" ?
-                (
-                    <Wrapper onClick={() => (window.open(promoUrl, '_blank'))} >
-                        {/*{*/}
-                        {/*    (cardType==="CardRoulettes") ?*/}
-                        {/*    (<Button onClick={() => (window.open(promoUrl, '_blank'))}>take it</Button>) :*/}
-                        {/*    ( <Button as={Link} to={`/${name}`}>take it</Button>)*/}
-                        {/*}*/}
 
-                        <Price>{price}</Price>
-                        <img style={{width: width, height: height}} src={logo} alt={name}/>
-                        <CardRect className="cardRect"/>
+            <Wrapper onClick={
+                cardType === CARD_TYPES.roulette ? () => (window.open(promoUrl, '_blank')) : () => history.push(`/${name}`)
+            }>
 
-                        {cardType==="CardRoulettes"? (
-                            <Code>
-                                <input type="text" value={copyValue}  ref={input}/>
-                                {
-                                    document.queryCommandSupported('copy') &&
-                                    <button onClick={copyToClipboard}>Copy</button>
-                                }
-                            </Code>
-                        ) : (
-                            null
-                        )}
-                        <Infocontainer>
-                            {(kyc==="true") ? (<StyledKycIcon/>) : (null)}
-                            <Time><TimeIcon/>{time}</Time>
-                            {(age==="true") ? (<AgeIcon className="age"/>) : (null)}
-                        </Infocontainer>
-                    </Wrapper>
-                )
-                :
-                (
-                    <Wrapper as={Link} to={`/${name}`}>
-                        {/*{cardType==="CardRoulettes" ?*/}
-                        {/*    (<Button onClick={() => (window.open(promoUrl, '_blank'))}>take it</Button>) :*/}
-                        {/*    ( <Button as={Link} to={`/${name}`}>take it</Button>)}*/}
+                {currentUser && <StyledDeleteButton onClick={(e) => {
+                    e.stopPropagation()
+                    setWarningActive(true)
+                }}/>}
 
-                        <Price>{price}</Price>
-                        <img style={{width: width, height: height}} src={logo} alt={name}/>
-                        <CardRect className="cardRect"/>
+                <Warning warningActive={warningActive}>
+                    Are you sure to delete?
+                    <ButtonsContainer>
+                        <DecisionBtn onClick={(e) => {
+                            e.stopPropagation()
+                            deleteDoc("Cards", id)
+                            setWarningActive(false)
+                        }}>Yes</DecisionBtn>
+                        <DecisionBtn red onClick={(e) => {
+                            e.stopPropagation()
+                            setWarningActive(false)
+                        }}>No</DecisionBtn>
+                    </ButtonsContainer>
+                </Warning>
+                <Price>{price}</Price>
+                <Image width={width} height={height} src={logo} alt={name}/>
+                <CardRect className="cardRect"/>
 
-
-                        <Infocontainer>
-                            {(kyc==="true") ? (<StyledKycIcon/>) : (null)}
-                            <Time><TimeIcon/>{time}</Time>
-                            {(age==="true") ? (<AgeIcon className="age"/>) : (null)}
-                        </Infocontainer>
-                    </Wrapper>
-                )}
-
-        </>
+                {cardType === CARD_TYPES.roulette ? (
+                    <Code>
+                        <input type="text" value={copyValue} ref={input}/>
+                        {
+                            document.queryCommandSupported('copy') &&
+                            <button onClick={copyToClipboard}>Copy</button>
+                        }
+                    </Code>
+                ) : null}
+                <InfoContainer>
+                    {(kyc === "true") ? (<StyledKycIcon/>) : (null)}
+                    <Time><TimeIcon/>{time}</Time>
+                    {(age === "true") ? (<AgeIcon className="age"/>) : (null)}
+                </InfoContainer>
+            </Wrapper>
     )
 }
 

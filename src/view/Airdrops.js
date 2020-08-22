@@ -3,12 +3,13 @@ import Heading from "../components/Heading";
 import icon from '../assets/icons/drop.png'
 import Card, {CardWrapper} from '../components/Card'
 import  {addSnapshot} from "../firebase/firebase";
+import {CARD_TYPES} from "../constants";
 
 const Airdrops = () => {
     const [card,setCard] = useState([])
 
     useEffect(()=>{
-    addSnapshot("CardAirdrops", setCard)
+    addSnapshot( "Cards", setCard, CARD_TYPES.airdrops )
     }, [])
 
     return(
@@ -20,7 +21,7 @@ const Airdrops = () => {
     </Heading>
     <CardWrapper>
 
-        {card.map(({price, name, logo, time, age,width, height,kyc})=>(
+        {card.map(({price, name, logo, time, age,width, height,kyc,id})=>(
             <Card
                 price={price}
                 name={name}
@@ -31,7 +32,7 @@ const Airdrops = () => {
                 height={height}
                 key={name}
                 kyc={kyc}
-
+                id={id}
             />
         ))}
 

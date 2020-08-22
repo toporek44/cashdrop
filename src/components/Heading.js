@@ -19,17 +19,26 @@ width:80%;
 font-size:8rem;
 padding: 8rem 1rem 1rem 1rem;
 }
+h6{
+font-size: 2rem;
+text-align: left;
+padding: 1rem;
 
+@media ${device.tablet}{
+      font-size:3rem;
+      text-align:center;
+    }
+}
 img{
 height: 150px;
 width: 150px;
 margin:4rem 0;
 
-@media ${device.tablet}{
-    height: 250px;
-    width: 250px;
-    margin:4rem 0;
-}
+    @media ${device.tablet}{
+        height: 250px;
+        width: 250px;
+        margin:4rem 0;
+    }
 }
 
 }

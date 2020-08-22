@@ -4,6 +4,8 @@ import Heading from "../components/Heading";
 import icon from "../assets/icons/free.png";
 import {CardWrapper} from "../components/Card";
 import  {addSnapshot} from "../firebase/firebase";
+import {CARD_TYPES} from "../constants";
+import * as firebase from "firebase";
 
 
 
@@ -11,20 +13,21 @@ function RealMoney() {
     const [card,setCard] = useState([])
 
     useEffect(()=>{
-       addSnapshot("CardData", setCard)
+        addSnapshot("Cards", setCard, CARD_TYPES.realMoney)
     }, [])
 
-    console.log(card.map(({name, price }) => price + name))
 
   return (
     <>
 
         <Heading >
             Take Some Extra Bucks For
-            <img src={icon} alt=""/>
+            <img src={icon} alt="" />
+            <h6>More and more companies to promote their services giving away money for free to encourage user to start using their app or open an bank account. On this website you can find all these promotions with clear and easy instructions to do.</h6>
+
         </Heading>
         <CardWrapper>
-            {card.map(({price, name, logo, time, age,width, height,kyc})=>(
+            {card.map(({price, name, logo, time, age,width, height,kyc,id})=>(
                 <Card
                 price={price}
                 name={name}
@@ -35,6 +38,7 @@ function RealMoney() {
                 height={height}
                 key={name}
                 kyc={kyc}
+                id={id}
                 />
                 ))}
 

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import GlobalStyle from "../Theme/GlobalStyle";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import Header from "../components/Header";
@@ -24,7 +24,6 @@ import Offer from "./Offers/Offer";
 import ScrollToTop from "../components/ScrollToTop";
 
 require("dotenv").config({path: ".env"});
-
 
 
 const handleScrollTop = () => {
@@ -59,9 +58,8 @@ const Root = () => {
     const [path, setPath] = useState([])
 
     useEffect(()=>{
-        addSnapshot("OfferPages", setPath)
+        addSnapshot("OfferPages", setPath,"Test", "offerName")
     }, [])
-// console.log(path.path)
         return (
             <>
                 <AuthProvider>
